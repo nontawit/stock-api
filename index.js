@@ -34,12 +34,18 @@ app.listen(port, () => {
 //ดึงสินค้าทั้งหมด
 app.get('/all', async (req, res) => {
     try {
+        // ทดสอบการเชื่อมต่อ
+        await pool.connect();
         const result = await pool.query('SELECT * FROM public.stock');
         res.json(result.rows);
     } catch (error) {
-        console.error(err);
-        res.status(500).json({ error: 'Internal server error' });
+        console.error('Error fetching data:', error.message);
+        res.status(500).json({ error: error.message });
+    } finally {
+        // ปิดการเชื่อมต่อ
+        await pool.end();
     }
 });
+
 
 module.exports = app;
