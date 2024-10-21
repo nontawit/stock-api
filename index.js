@@ -30,7 +30,7 @@ app.listen(port, () => {
 });
 
 //ดึงสินค้าทั้งหมด
-app.get('/all', async (req, res) => {
+app.get('/', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM public.stock');
         res.json(result.rows);
