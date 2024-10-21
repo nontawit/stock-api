@@ -1,6 +1,7 @@
 const express = require('express');
 const { Pool } = require('pg');
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ const pool = new Pool({
 
 // Middleware เพื่อให้ Express อ่านข้อมูล JSON ได้
 app.use(express.json());
+app.use(cors());
 
 // เส้นทางพื้นฐาน
 app.get('/', (req, res) => {
@@ -30,7 +32,7 @@ app.listen(port, () => {
 });
 
 //ดึงสินค้าทั้งหมด
-app.get('/', async (req, res) => {
+app.get('/all', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM public.stock');
         res.json(result.rows);
