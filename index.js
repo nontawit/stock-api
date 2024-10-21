@@ -10,11 +10,7 @@ const port = process.env.PORT || 3000;
 
 // ตั้งค่าการเชื่อมต่อกับ PostgreSQL
 const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT,
+    connectionString: process.env.DATABASE_URL, // ใช้ DATABASE_URL แทนการระบุทีละตัว
 });
 
 // Middleware เพื่อให้ Express อ่านข้อมูล JSON ได้
@@ -34,16 +30,14 @@ app.listen(port, () => {
 //ดึงสินค้าทั้งหมด
 app.get('/all', async (req, res) => {
     try {
-        // ทดสอบการเชื่อมต่อ
-        await pool.connect();
-        const result = await pool.query('SELECT * FROM public.stock');
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM public.stock');
         res.json(result.rows);
     } catch (error) {
-        console.error('Error fetching data:', error.message);
-        res.status(500).json({ error: error.message });
+        console.error('Connection error:', error);
+        res.status(500).json({ error: 'Connection error' });
     } finally {
-        // ปิดการเชื่อมต่อ
-        await pool.end();
+        client.release();
     }
 });
 
