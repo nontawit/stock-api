@@ -5,7 +5,7 @@ const pool = require('../db/pool');
 // GET all todos
 router.get('/todos', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM todos');
+    const result = await pool.query('SELECT * FROM stock');
     res.json(result.rows);
   } catch (err) {
     console.error('Error executing query', err);
