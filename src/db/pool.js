@@ -5,7 +5,8 @@ dotenv.config();
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: false // ปิดการใช้งาน SSL
+    ssl: false // ปิด SSL
   });
 
+  
 module.exports = pool;
