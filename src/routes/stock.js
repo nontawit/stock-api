@@ -3,7 +3,7 @@ const router = express.Router();
 const pool = require('../db/pool');
 
 // GET all todos
-router.get('/todos', async (req, res) => {
+router.get('/stock', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM stock');
     res.json(result.rows);
@@ -14,7 +14,7 @@ router.get('/todos', async (req, res) => {
 });
 
 // POST a new todo
-router.post('/todos', async (req, res) => {
+router.post('/stock', async (req, res) => {
   const { description } = req.body;
 
   try {
