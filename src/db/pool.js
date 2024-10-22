@@ -3,13 +3,10 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-
 const pool = new Pool({
-  user: 'postgres',
-  host: '54.254.162.138', // ไม่ใช่ 127.0.0.1
-  database: 'stockdb',
-  password: 'Ntw0622433755.',
-  port: 5432,
-});
+    connectionString: process.env.DATABASE_URL,
+    ssl: false // ปิด SSL
+  });
+
   
 module.exports = pool;
