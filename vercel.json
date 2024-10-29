@@ -6,10 +6,20 @@
             "use": "@vercel/node"
         }
     ],
-    "routes": [
+    "rewrites": [
         {
-            "src": "/api/(.*)",
-            "dest": "/api/index.js"
+            "source": "/api/:path*",
+            "destination": "/api/:path*"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers" : [
+                { "key": "Access-Control-Allow-Origin", "value": "*"},
+                { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS" },
+                { "key": "Access-Control-Allow-Headers", "value": "X-Requested-With, Content-Type, Accept "}
+            ]
         }
     ]
 }
