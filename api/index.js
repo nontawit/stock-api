@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 app.get('/api/stock615', async (req, res) => {
     try {
         const snapshot = await db.collection('stock615')
-        .orderBy('recorded')
+        .orderBy('codeID', 'asc')
         .get();
 
         const data = snapshot.docs.map(doc => {
@@ -53,6 +53,7 @@ app.get('/api/stock615', async (req, res) => {
         
 
         res.status(200).json(data);
+        // console.log('Fetch data:', snapshot.docs.map(doc => doc.data()));
     } catch (error) {
         console.error('Error getting documents: ', error);
         res.status(500).send('Error getting document');
@@ -61,7 +62,7 @@ app.get('/api/stock615', async (req, res) => {
 
 //เพิ่มข้อมูลของ stock615
 app.post('/api/stock615', async (req, res) => {
-    const { docID, productName, price, quantity, shelfPosition, recorded } = req.body ;
+    const { docID, codeID, productName, price, quantity, shelfPosition, recorded } = req.body ;
     
     try {
 
@@ -71,6 +72,7 @@ app.post('/api/stock615', async (req, res) => {
 
 
         await newDocRef.set({
+            codeID,
             productName,
             price,
             quantity,
